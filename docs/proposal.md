@@ -39,3 +39,30 @@ https://api.tvmaze.com/search/shows?q=stranger%20things
     }
   }
 ]
+
+## endpoint list
+### Watchlists
+
+| Method | Path | What it does | Success | Errors |
+|---|---|---|---|---|
+| GET | `/api/watchlists` | Gets all watchlists | 200 | 401, 500 |
+| GET | `/api/watchlists/:id` | Gets one watchlist | 200 | 401, 404, 500 |
+| POST | `/api/watchlists` | Creates a watchlist | 201 | 400, 401, 500 |
+| PUT | `/api/watchlists/:id` | Updates a watchlist | 200 | 400, 401, 404, 500 |
+| DELETE | `/api/watchlists/:id` | Deletes a watchlist | 204 | 401, 404, 500 |
+
+### Watchlist Items
+
+| Method | Path | What it does | Success | Errors |
+|---|---|---|---|---|
+| GET | `/api/watchlist-items` | Gets all saved shows | 200 | 401, 500 |
+| GET | `/api/watchlist-items/:id` | Gets one saved show | 200 | 401, 404, 500 |
+| POST | `/api/watchlist-items` | Adds a show to a watchlist | 201 | 400, 401, 409, 500 |
+| PUT | `/api/watchlist-items/:id` | Updates show progress, status, rating, or notes | 200 | 400, 401, 404, 500 |
+| DELETE | `/api/watchlist-items/:id` | Removes a show from the watchlist | 204 | 401, 404, 500 |
+
+### External API Search
+
+| Method | Path | What it does | Success | Errors |
+|---|---|---|---|---|
+| GET | `/api/search/shows?q=:title` | Searches TVmaze for shows | 200 | 400, 429, 500, 502 |
