@@ -1,3 +1,27 @@
+## Problem and Users
+
+Most people tend to watch multiple tv shows at a time and you can have trouble keeping track of all the shows they are watching as well as what episode they are on, considering that we know have multiple different 
+streaming services as well as weekly cable tv. WatchList will make it easier for users to track all this data by allowing them to track what shows they are currently watching, what episode they are on, as well as what 
+shows they have finished, the users will also be able to leave ratings on these shows. The main users of this would be people who tend to watch multiple tv shows at once, keeping up with new releases across multiple 
+different streaming services and weekly airings of shows. This will allow them to track everything they are watching in organized way, as well keep track of how close they are to finish a show, and rate the ones that 
+they have completed. 
+
+## Features/MVP
+
+1. TV show search functionality using the API 
+
+2. Add shows to a list for currently watching 
+
+3. tracker for the current season and episode of a show
+
+4. Mark a completed show as watched and add a show to a watch later list 
+
+5. 1-5 star ratings
+
+6. add/remove and edit a watchlist 
+
+7. sorting shows by rating 
+
 ## External API
 
 We will use the TVmaze API to search for TV shows and retrieve show information.
