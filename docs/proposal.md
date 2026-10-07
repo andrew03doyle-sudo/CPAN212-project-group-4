@@ -22,6 +22,51 @@ they have completed.
 
 7. sorting shows by rating 
 
+## Data Model Draft
+
+  ## Users
+    ID - a unique number for each user 
+   
+    Username - name used to login 
+   
+    Email - the users email
+
+  ## Show 
+    ID - unique number for each show
+
+    Title - title of show 
+
+    Description - about the show 
+
+    Image url - image for the show 
+
+    Genre - the category of show 
+
+    Number of seasons - how many seasons the show has 
+
+  ## Watchlist 
+    User ID - shows which user added the show
+   
+    Show ID - shows which tv show the item is for 
+   
+    Current season - season the user is on 
+   
+    Current episode - episode the user is on 
+   
+    Rating - rating for the show 
+
+  ## Relationships
+    One user can have many shows on their watchlist 
+   
+    One watchlist item belongs to one user 
+   
+    One show can be in many users watchlists
+   
+    User id connects watchlist to the user 
+   
+    Show id connects the watchlist to the show 
+
+
 ## External API
 
 We will use the TVmaze API to search for TV shows and retrieve show information.
