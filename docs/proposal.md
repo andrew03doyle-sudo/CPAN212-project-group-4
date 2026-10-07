@@ -135,3 +135,14 @@ https://api.tvmaze.com/search/shows?q=stranger%20things
 | Method | Path | What it does | Success | Errors |
 |---|---|---|---|---|
 | GET | `/api/search/shows?q=:title` | Searches TVmaze for shows | 200 | 400, 429, 500, 502 |
+
+## Team Roles
+
+- API Lead – Andrew Doyle
+
+- Frontend Lead – Arman Dhillon
+
+- Database Lead – Andrew Doyle
+
+- Repository and Pull Requests Lead – Andrew Doyle
+
