@@ -7,3 +7,4 @@ Group: 4
 ## Members
 -Andrew Doyle
 -Arman Dhillon 
+-Nathaniel Pauls
