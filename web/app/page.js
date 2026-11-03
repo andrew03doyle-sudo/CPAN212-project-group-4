@@ -1,69 +1,43 @@
-import Image from "next/image";
-import styles from "./page.module.css";
 
-export default function Home() {
+import Link from "next/link";
+import { getShows } from "../lib/api";
+
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  let shows = [];
+  let error = "";
+
+  try {
+    shows = await getShows();
+  } catch {
+    error = "Could not connect to the Express API.";
+  }
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.js</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main style={{ padding: "30px" }}>
+      <h1>WatchList Project</h1>
+      <p>Our Next.js frontend connected to Express.</p>
+
+      <h2>TV Shows</h2>
+
+      {error ? (
+        <p>{error}</p>
+      ) : shows.length === 0 ? (
+        <p>No shows found.</p>
+      ) : (
+        <ul>
+          {shows.map((show) => (
+            <li key={show.id}>
+              <Link href={`/shows/${show.id}`}>
+                {show.title}
+              </Link>
+              {" - "}
+              {show.genre}
+            </li>
+          ))}
+        </ul>
+      )}
+    </main>
   );
 }
