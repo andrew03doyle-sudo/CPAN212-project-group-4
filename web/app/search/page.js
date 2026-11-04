@@ -86,28 +86,30 @@ export default function SearchPage() {
   }}
 >
   {shows.map((show) => (
-    <li
-      key={show.id}
-      style={{
-        padding: "16px",
-        border: "1px solid #444",
-        borderRadius: "10px",
-        background: "#1b1b1b",
-      }}
-    >
-      {show.imageUrl && (
-        <img
-          src={show.imageUrl}
-          alt={show.title}
-          width="200"
-          style={{
-            display: "block",
-            marginBottom: "12px",
-            borderRadius: "6px",
-          }}
-        />
-      )}
-
+ <li
+  key={show.id}
+  style={{
+    padding: "16px",
+    border: "1px solid #444",
+    borderRadius: "10px",
+    background: "#1b1b1b",
+    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.35)",
+    transition: "transform 0.2s ease, border-color 0.2s ease",
+  }}
+>
+    {show.imageUrl && (
+  <img
+    src={show.imageUrl}
+    alt={show.title}
+    width="200"
+    style={{
+      display: "block",
+      marginBottom: "12px",
+      borderRadius: "6px",
+    }}
+  />
+)}
+      
       <strong>{show.title}</strong>
       <div>Genres: {show.genres.join(", ") || "Not available"}</div>
       <div>Status: {show.status}</div>
