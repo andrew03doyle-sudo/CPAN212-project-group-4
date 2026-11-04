@@ -1,5 +1,5 @@
-
 import Link from "next/link";
+import SaveShowButton from "./SaveShowButton";
 import { getShows } from "../lib/api";
 
 export const dynamic = "force-dynamic";
@@ -19,6 +19,13 @@ export default async function Home() {
       <h1>WatchList Project</h1>
       <p>Our Next.js frontend connected to Express.</p>
 
+      <p>
+        <Link href="/saved">View saved shows</Link>
+      </p>
+
+      <p>
+        <Link href="/search">Search TVmaze shows</Link>
+      </p>
       <h2>TV Shows</h2>
 
       {error ? (
@@ -34,6 +41,8 @@ export default async function Home() {
               </Link>
               {" - "}
               {show.genre}
+              {" "}
+              <SaveShowButton show={show} />
             </li>
           ))}
         </ul>
