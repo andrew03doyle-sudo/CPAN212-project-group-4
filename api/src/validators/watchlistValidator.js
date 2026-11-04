@@ -2,6 +2,9 @@
 export function validateWatchlist(data) {
     let errors = [];
 
+    if (!data || typeof data !== "object" || Array.isArray(data)) {
+  return ["Request body must be a JSON object"];
+    }
     if (!Number.isInteger(data.userId) || data.userId < 1) {
         errors.push("User ID must be a positive number");
     }
@@ -26,6 +29,7 @@ export function validateWatchlist(data) {
         (!Number.isInteger(data.rating) || data.rating < 1 || data.rating > 5)) {
         errors.push("Rating must be between 1 and 5 stars");
     }
+    
 
     return errors;
 }

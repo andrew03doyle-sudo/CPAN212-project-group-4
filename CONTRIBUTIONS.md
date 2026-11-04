@@ -24,3 +24,18 @@ Arman Dhillon
 -Added Watchlist validation and error responses.
 -Implemented HTTP status codes for Watchlist operations.
 -Performed initial testing of the Watchlist endpoints.
+
+Nathaniel Pauls:
+
+- Added custom not-found middleware to return a consistent JSON 404 response.
+- Connected the not-found middleware in the Express server.
+- Improved Watchlist request validation for invalid request bodies.
+- Tested error responses for unknown routes and invalid Watchlist requests.
+
+## M3
+Nathaniel Pauls:
+
+- Created the shared React Watchlist Context for saved shows.
+- Added the saved-shows page and save-show buttons.
+- Created the TVmaze search page, which fetches data through the Express API.
+- Updated the root README and contributions documentation for M3.

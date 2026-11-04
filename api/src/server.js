@@ -3,6 +3,7 @@ import express from "express";
 import watchlistRoutes from "./routes/watchlistRoutes.js";
 import showsRoutes from "./routes/showsRoutes.js";
 import searchRoutes from "./routes/searchRoutes.js";
+import { notFound } from "./middleware/notFound.js";
 
 const app = express();
 
@@ -15,14 +16,9 @@ app.use("/api/shows", showsRoutes);
 app.use("/api/search", searchRoutes);
 
 // handle unknown routes
-app.use((req, res) => {
-  res.status(404).json({
-    error: {
-      message: "Route not found",
-      details: []
-    }
-  });
-});
+app.use(notFound);
+
+
 
 // handle unexpected errors
 app.use((err, req, res, next) => {
@@ -45,4 +41,6 @@ const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
   console.log(`API running at http://localhost:${PORT}`);
+
+  
 });
