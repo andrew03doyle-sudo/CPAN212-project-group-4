@@ -39,3 +39,15 @@ Nathaniel Pauls:
 - Added the saved-shows page and save-show buttons.
 - Created the TVmaze search page, which fetches data through the Express API.
 - Updated the root README and contributions documentation for M3.
+
+Arman Dhillon:
+- Created the four watchlist pages: Watchlist, Add Show, Show Details, and Edit Show.
+- Added navigation links between the pages.
+- Created Add Show and Edit Show forms with input validation.
+-  Added loading, empty, and error messages.
+
+Andrew Doyle: 
+- Set up the Next.js frontend project.
+- Connected the frontend to the Express API.
+- Configured API rewrites for frontend and backend communication.
+- Worked on API integration and routing.
