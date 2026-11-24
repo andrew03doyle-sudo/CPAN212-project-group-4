@@ -22,10 +22,39 @@ app.use(notFound);
 
 
 // handle unexpected errors
+
 app.use((err, req, res, next) => {
   console.error(err.message);
 
-  const status = err.status || 500;
+  // handle Mongoose validation errors
+  if (err.name === "ValidationError") {
+    const details = Object.values(err.errors).map(
+      (error) => `${error.path}: ${error.message}`
+    );
+
+    return res.status(400).json({
+      error: {
+        message: "Invalid information",
+        details: details
+      }
+    });
+  }
+
+  // handle invalid MongoDB field values
+  if (err.name === "CastError") {
+    return res.status(400).json({
+      error: {
+        message: "Invalid field value",
+        details: [err.message]
+      }
+    });
+  }
+
+  // handle other errors
+  const status =
+    err.status >= 400 && err.status <= 599
+      ? err.status
+      : 500;
 
   res.status(status).json({
     error: {
@@ -36,6 +65,7 @@ app.use((err, req, res, next) => {
     }
   });
 });
+
 
 // start the server
 
