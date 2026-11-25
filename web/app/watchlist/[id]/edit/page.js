@@ -33,7 +33,7 @@ export default function EditShowPage() {
         const item = await response.json();
 
         setUserId(String(item.userId));
-        setShowId(String(item.showId));
+        setShowId(String(item.show._id));
         setWatched(item.watched);
         setSeason(String(item.currentSeason));
         setEpisode(String(item.currentEpisode));
@@ -57,7 +57,7 @@ export default function EditShowPage() {
 
     const updatedShow = {
       userId: Number(userId),
-      showId: Number(showId),
+      show: showId,
       watched: watched,
       currentSeason: Number(season),
       currentEpisode: Number(episode)
@@ -78,7 +78,7 @@ export default function EditShowPage() {
 
       if (response.status === 400) {
         const data = await response.json();
-        setErrors(data.error.details);
+        setError(data.error.details?.join(", ") || data.error.message);
         return;
       }
 
@@ -122,7 +122,7 @@ export default function EditShowPage() {
         <p>
           <label>Show ID</label>
           <input
-            type="number"
+            type="text"
             value={showId}
             onChange={(event) => setShowId(event.target.value)}
           />
