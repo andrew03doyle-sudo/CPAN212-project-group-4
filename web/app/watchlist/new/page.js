@@ -22,13 +22,13 @@ export default function AddShowPage() {
     setError("");
     setSaving(true);
 
-    const newShow = {
-      userId: Number(userId),
-      showId: Number(showId),
-      watched: watched,
-      currentSeason: Number(season),
-      currentEpisode: Number(episode)
-    };
+  const newShow = {
+    userId: Number(userId),
+    show: showId,
+    watched: watched,
+    currentSeason: Number(season),
+    currentEpisode: Number(episode)
+  };
 
     if (rating !== "") {
       newShow.rating = Number(rating);
@@ -44,9 +44,14 @@ export default function AddShowPage() {
       });
 
       if (!response.ok) {
-        setError("Unable to add show. Check your information.");
-        return;
-      }
+  const data = await response.json();
+  setError(
+    data.error.details?.length > 0
+      ? data.error.details.join(", ")
+      : data.error.message
+  );
+  return;
+}
 
       router.push("/watchlist");
       router.refresh();
@@ -74,7 +79,7 @@ export default function AddShowPage() {
         <p>
           <label>Show ID</label>
           <input
-            type="number"
+            type="text"
             value={showId}
             onChange={(event) => setShowId(event.target.value)}
           />

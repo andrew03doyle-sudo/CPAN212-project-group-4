@@ -44,8 +44,34 @@ function validateData(data) {
 
 // get all watchlist items
 export async function getAllWatchlist(req, res) {
-  const items = await Watchlist.find().populate("show");
-  res.status(200).json(items);
+  const filter = {};
+  const allowedSort = ["rating", "currentSeason", "currentEpisode", "userId"];
+  const sort = req.query.sort || "userId";
+  const page = Math.max(1, parseInt(req.query.page) || 1);
+  const limit = Math.min(50, Math.max(1, parseInt(req.query.limit) || 10));
+
+  if (!allowedSort.includes(sort)) {
+    return res.status(400).json({
+      error: { message: "Invalid sort field", details: [] }
+    });
+  }
+
+  if (req.query.watched === "true") filter.watched = true;
+  if (req.query.watched === "false") filter.watched = false;
+
+  const total = await Watchlist.countDocuments(filter);
+
+  const items = await Watchlist.find(filter)
+    .populate("show")
+    .sort({ [sort]: 1, _id: 1 })
+    .skip((page - 1) * limit)
+    .limit(limit);
+
+  res.status(200).json({
+    items,
+    total,
+    pages: Math.ceil(total / limit)
+  });
 }
 
 // get one watchlist item
