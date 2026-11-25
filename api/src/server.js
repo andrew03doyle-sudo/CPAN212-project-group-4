@@ -1,4 +1,4 @@
-
+import mongoose from "mongoose";
 import express from "express";
 import watchlistRoutes from "./routes/watchlistRoutes.js";
 import showsRoutes from "./routes/showsRoutes.js";
@@ -6,6 +6,7 @@ import searchRoutes from "./routes/searchRoutes.js";
 import { notFound } from "./middleware/notFound.js";
 
 const app = express();
+mongoose.set("sanitizeFilter", true);
 
 // allow the server to read JSON
 app.use(express.json());
@@ -21,10 +22,39 @@ app.use(notFound);
 
 
 // handle unexpected errors
+
 app.use((err, req, res, next) => {
   console.error(err.message);
 
-  const status = err.status || 500;
+  // handle Mongoose validation errors
+  if (err.name === "ValidationError") {
+    const details = Object.values(err.errors).map(
+      (error) => `${error.path}: ${error.message}`
+    );
+
+    return res.status(400).json({
+      error: {
+        message: "Invalid information",
+        details: details
+      }
+    });
+  }
+
+  // handle invalid MongoDB field values
+  if (err.name === "CastError") {
+    return res.status(400).json({
+      error: {
+        message: "Invalid field value",
+        details: [err.message]
+      }
+    });
+  }
+
+  // handle other errors
+  const status =
+    err.status >= 400 && err.status <= 599
+      ? err.status
+      : 500;
 
   res.status(status).json({
     error: {
@@ -36,11 +66,30 @@ app.use((err, req, res, next) => {
   });
 });
 
+
 // start the server
+
 const PORT = process.env.PORT || 4000;
 
-app.listen(PORT, () => {
-  console.log(`API running at http://localhost:${PORT}`);
+// Check that a MongoDB connection string exists
+if (!process.env.MONGODB_URI) {
+  console.error("MONGODB_URI is missing from .env");
+  process.exit(1);
+}
 
-  
-});
+try {
+  // connect to MongoDB before starting Express
+  await mongoose.connect(process.env.MONGODB_URI);
+
+  console.log("Connected to MongoDB");
+
+  // start the API only after connecting
+  app.listen(PORT, () => {
+    console.log(`API running at http://localhost:${PORT}`);
+  });
+
+} catch (error) {
+  console.error("MongoDB connection failed:", error.message);
+  process.exit(1);
+}
+

@@ -41,13 +41,37 @@ Nathaniel Pauls:
 - Updated the root README and contributions documentation for M3.
 
 Arman Dhillon:
+
 - Created the four watchlist pages: Watchlist, Add Show, Show Details, and Edit Show.
 - Added navigation links between the pages.
 - Created Add Show and Edit Show forms with input validation.
 -  Added loading, empty, and error messages.
 
 Andrew Doyle: 
+
 - Set up the Next.js frontend project.
 - Connected the frontend to the Express API.
 - Configured API rewrites for frontend and backend communication.
 - Worked on API integration and routing.
+
+## M4
+Nathaniel Pauls:
+
+- Added dropdown menus and page navigation buttons.
+- Connected the page controls to the updated api.
+- Updated url query parameters.
+- Created the seed script and updated documents.
+
+Arman Dhillon:
+
+- Updated the add show and edit show forms to display validation errors.
+- Tested http 400 and 404 error responses.
+- Implemented filtering, sorting, and pagination in the watchlist api.
+- Added a sorting allowlist and maximum page limit.
+
+Andrew Doyle:
+
+- Set up the mongodb connection using mongoose.
+- Created the show and watchlist models.
+- Replaced in-memory data with mongodb storage.
+- Added relationships between models using references and pop.

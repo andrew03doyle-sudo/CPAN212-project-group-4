@@ -1,16 +1,27 @@
 
-import { randomUUID } from "node:crypto";
-import { shows } from "../records/shows.js";
-import { validateShow } from "../validators/showsValidator.js";
+import mongoose from "mongoose";
+import Show from "../models/Show.js";
 
-// get all shows
-export function getAllShows(req, res) {
+// Get all shows
+export async function getAllShows(req, res) {
+  const shows = await Show.find();
   res.status(200).json(shows);
 }
 
-// get one show
-export function getShowById(req, res) {
-  const show = shows.find(s => s.id === req.params.id);
+// Get one show
+export async function getShowById(req, res) {
+  const { id } = req.params;
+
+  if (!mongoose.isValidObjectId(id)) {
+    return res.status(404).json({
+      error: {
+        message: "Show not found",
+        details: []
+      }
+    });
+  }
+
+  const show = await Show.findById(id);
 
   if (!show) {
     return res.status(404).json({
@@ -24,33 +35,33 @@ export function getShowById(req, res) {
   res.status(200).json(show);
 }
 
-// add a new show
-export function addShow(req, res) {
-  const errors = validateShow(req.body);
+// Create a show
+export async function addShow(req, res) {
+  const show = await Show.create(req.body);
+  res.status(201).json(show);
+}
 
-  if (errors.length > 0) {
-    return res.status(400).json({
+// Update a show
+export async function updateShow(req, res) {
+  const { id } = req.params;
+
+  if (!mongoose.isValidObjectId(id)) {
+    return res.status(404).json({
       error: {
-        message: "Invalid show information",
-        details: errors
+        message: "Show not found",
+        details: []
       }
     });
   }
 
-  const newShow = {
-    id: randomUUID(),
-    title: req.body.title.trim(),
-    genre: req.body.genre.trim(),
-    seasons: req.body.seasons
-  };
-
-  shows.push(newShow);
-  res.status(201).json(newShow);
-}
-
-// update a show
-export function updateShow(req, res) {
-  const show = shows.find(s => s.id === req.params.id);
+  const show = await Show.findByIdAndUpdate(
+    id,
+    req.body,
+    {
+      returnDocument: "after",
+      runValidators: true
+    }
+  );
 
   if (!show) {
     return res.status(404).json({
@@ -61,29 +72,14 @@ export function updateShow(req, res) {
     });
   }
 
-  const errors = validateShow(req.body);
-
-  if (errors.length > 0) {
-    return res.status(400).json({
-      error: {
-        message: "Invalid show information",
-        details: errors
-      }
-    });
-  }
-
-  show.title = req.body.title.trim();
-  show.genre = req.body.genre.trim();
-  show.seasons = req.body.seasons;
-
   res.status(200).json(show);
 }
 
-// delete a show
-export function deleteShow(req, res) {
-  const index = shows.findIndex(s => s.id === req.params.id);
+// Delete a show
+export async function deleteShow(req, res) {
+  const { id } = req.params;
 
-  if (index === -1) {
+  if (!mongoose.isValidObjectId(id)) {
     return res.status(404).json({
       error: {
         message: "Show not found",
@@ -92,6 +88,17 @@ export function deleteShow(req, res) {
     });
   }
 
-  shows.splice(index, 1);
+  const show = await Show.findByIdAndDelete(id);
+
+  if (!show) {
+    return res.status(404).json({
+      error: {
+        message: "Show not found",
+        details: []
+      }
+    });
+  }
+
   res.status(204).send();
 }
+
