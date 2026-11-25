@@ -6,7 +6,7 @@ import { Suspense } from "react";
 async function ShowInformation({ item, id }) {
   return (
     <div>
-      <p>Show ID: {item.showId}</p>
+      <p>Show ID: {item.show?._id}</p>
       <p>Rating: {item.rating ?? "No rating"} / 5</p>
       <p>Watched: {item.watched ? "Yes" : "No"}</p>
       <p>Season: {item.currentSeason}</p>
